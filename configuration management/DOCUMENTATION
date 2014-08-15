@@ -1,0 +1,13 @@
+This creates five virtual machines using Vagrant and Virtualbox which apply
+the appropriate puppet configuration (located under puppet/) to fill out the
+widgetfile template as requested.
+
+By design, box03 does not have a value for the widget fact, box04 is initially
+down, and box05 does not execute the widget puppet module at all.
+
+To deploy, just execute ./bootstrap.sh which will bring up 01, 02, 03, and 05,
+run the status report, bring up 04, run the status report again, and then tear
+down all five VMs.
+
+To report on the boxes manually, run ./check_status.sh (bootstrap.sh
+automatically runs this).

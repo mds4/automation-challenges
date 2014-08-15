@@ -1,0 +1,49 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box         = "http://puppet-vagrant-boxes.puppetlabs.com/centos-65-x64-virtualbox-puppet.box"
+
+  config.vm.synced_folder "puppet/modules", "/etc/puppet/modules"
+  config.vm.provision "puppet",
+    manifests_path: "puppet/manifests",
+    manifest_file: "default.pp",
+    temp_dir: "/etc/puppet",
+    facter: {"widget" => "default"},
+    id: "puppet"  # id is needed to perform the override later
+
+  config.vm.define "box01", primary: true do |box01|
+    box01.vm.hostname = "box01"
+    box01.vm.provision "puppet",
+      facter: {"widget" => "circle"},
+      id: "puppet"
+  end
+
+  config.vm.define "box02" do |box02|
+    box02.vm.hostname = "box02"
+    box02.vm.provision "puppet",
+      facter: {"widget" => "square"},
+      id: "puppet"
+  end
+
+  config.vm.define "box03" do |box03|
+    box03.vm.hostname = "box03"
+    box03.vm.provision "puppet",
+      facter: {"widget" => ""},
+      id: "puppet"
+  end
+
+  config.vm.define "box04", autostart: false do |box04|
+    box04.vm.hostname = "box04"
+    box04.vm.provision "puppet",
+      facter: {"widget" => "triangle"},
+      id: "puppet"
+  end
+
+  config.vm.define "box05" do |box05|
+    box05.vm.hostname = "box05"
+    box05.vm.provision "puppet",
+      manifest_file: "default2.pp",
+      facter: {"widget" => "hexagon"},
+      id: "puppet"
+  end
+end

@@ -1,0 +1,5 @@
+To run the server, just execute ./wordserver.py (change the port if necessary)
+
+You can then execute ./test.sh which runs a bunch of examples against the server.
+
+You can issue a SIGINT (Control-C) to wordserver.py to terminate it.
